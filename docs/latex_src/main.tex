@@ -77,7 +77,7 @@
 
 \begin{abstract}
 User reviews of medical drugs are increasingly available and provide additional information to those mindful of selection biases. For this article we explored a public dataset of drug reviews to present the following: a ranking of medical conditions and drugs according to the usefulness of their reviews, a way of assessing the importance of word occurrences in a review for predicting the associated rating, and a comparison of popular sentiment analysis models.
-Code available \href{https://github.com/dmandic17/medical-drug-review-analysis}{here}. 
+Code is available at \href{https://github.com/dmandic17/medical-drug-review-analysis}{https://github.com/dmandic17/medical-drug-review-analysis}. 
 
 % Maybe what are the ways of assessing?
 %maybe: how to assess whether a word provides additional information for prediction of ratings,
@@ -89,7 +89,8 @@ Code available \href{https://github.com/dmandic17/medical-drug-review-analysis}{
 
 \section{Introduction}
  
-The internet era is a period in the information age in which communication and commerce via the internet became a central focus for businesses, consumers, government, and the media. Since we have long been in the internet era, we are aware of the fact that people inform themselves about all types of products through other people's comments and reviews. This is even true for medical drugs, where it might be better to get information from an expert, rather than reading other people's reviews. However, as we are all aware, almost all medical drugs can cause side effects. These side effects are supposedly rare but sometimes can lead to serious consequences, so the key is to stay informed. This makes the reviews a database from which people can learn through others' experiences. \\
+The internet era is a period in the information age in which communication and commerce via the internet became a central focus for businesses, consumers, government, and the media. Since we have long been in the internet era, we are aware of the fact that people inform themselves about all types of products through other people's comments and reviews. Both for readers of reviews and data analysts it is important to keep in mind that reviews don't come from a representative sample of drug users, but are self selected; they don't replace clinical trials. However, as we are all aware, almost all medical drugs can cause side effects. These side effects are supposedly rare but sometimes can lead to serious consequences, so the key is to stay informed. This makes the reviews a database from which people can learn through others' experiences. \\
+ %This is even true for medical drugs, where it might be better to get information from an expert, rather than reading other people's reviews.
 \\
 In this project, we are examining the UCI ML Drug Review Dataset \citep{data}, which contains a list of medical drugs along with user reviews and ratings. We are exploring for which medical conditions and medications is the highest number of people informed through other people's reviews and providing an explanation why that might be the case. Furthermore, we explore the importance of certain word counts for predicting the rating of a review using linear regression models. In this case, we have limited the reviews to the one medical condition: \textit{depression}, as it is the condition with the highest number of people that find the reviews for its medications useful. Moreover, we are comparing a few models for sentiment analysis of the reviews. Sentiment Analysis is the identification of the sentiment associated with a sentence, phrase or an entire document. Since we are dealing with reviews of drugs in this dataset, we would certainly be interested in understanding the sentiment associated with these reviews and try to see which drugs have positive reviews and which ones have negative reviews.
 
@@ -112,7 +113,7 @@ Since many conditions appeared only once or were nonsensical, we kept only entri
 We wanted to examine whether the top ten medical conditions ranked by how many people found the reviews for them useful (\emph{usefulCount}) overlap with the top ten medications with the most useful reviews. The appropriate plots can be seen in Figure \ref{fig:bars}. As expected, the top conditions (by \emph{usefulCount})  are common, every-day conditions, and top medications (by \emph{usefulCount}) are the medications for some of these conditions. So, from these results, we can see that the overlap exists and that the most useful reviews are for conditions that are either very common and have a lot of different medications (e.g., pain, high blood pressure etc.) or have medications with frequently occurring side effects (e.g., birth control, depression, anxiety etc.).
 
 \begin{figure}[h!]
-\includegraphics{plots/figure1_1.pdf}
+\includegraphics{plots/top_conditions.pdf}
 \caption{Top 10 medical conditions by how useful the people found the reviews for their drugs \textit{(left)} and top 10 drugs along with medical conditions they are used for according to the same criteria \textit{(right)}.}
 \label{fig:bars}
 \centering
@@ -150,7 +151,7 @@ In the background of Figure \ref{fig:score_corr}, the bar plot shows a measure o
 Sentiment analysis is an important task in all types of reviews as it helps in better understanding the emotion in the review and provides a possible direction for product improvements. This data is especially good for comparing the performance of different models on the task of sentiment analysis as it contains both the \emph{reviews} for medical drugs and the \emph{rating} from the user who wrote the review. We have separated the ratings in three different sentiment classes where \textit{class 0 = negative} is for $rating<5$, \textit{class 1 = neutral} for $rating=5$ and \textit{class 2 = positive} for $rating>5$. For the purpose of this task, we first evaluated all reviews using TextBlob Sentiment Analysis tool (?), using both filtered (removing stopwords and punctuation) and unfiltered reviews, and found the correlation between sentiment and grade is lower when using filtered data. The possible explanation for this is that word \textit{"not"} is among the stopwords, and when it is eliminated the sentiment might be predicted wrongly.\\
 We have also compared the performance of three standard models: Random Forest \citep{randomForest}, Multinomial Naive Bayes \citep{mnb} and XGBoost \citep{xgboost}. All models were trained on test data and evaluated using test data where target classes were calculated as described previously. Since a classifier requires numeric input, the reviews were first converted to vectors using TF–IDF (term frequency-inverse document frequency) which is a term weighting scheme commonly used to represent textual documents as vectors \citep{tfidf}.\\
 \begin{figure}[h!]
-\includegraphics[width = \textwidth]{plots/figure2.pdf}
+\includegraphics[width = \textwidth]{plots/sentiment_analysis.pdf}
 \caption{Accuracy plot and Confusion Matrices for MNB, XGBoost and RF models where $0=negative, 1=neutral$ and $2=positive$ sentiment.} 
 \label{fig:acc}
 \centering
